@@ -7,10 +7,13 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
 
-public class Tank {
+public class Tank extends AbstractGameObject{
 
     private int x, y;
-    private int oldX, oldY;
+    private int oldX, oldY;     //记录上一步的位置，用于实现 back() 方法
+    private int w=ResourceMgr.bulletWidth;
+    private int h = ResourceMgr.bulletHeight;
+    private Rectangle body;
 
     public Group getGroup() {
         return group;
@@ -28,8 +31,12 @@ public class Tank {
         return this.alive;
     }
 
+    public Rectangle getBody() {
+        return body;
+    }
+
     private Dir dir = Dir.D;
-    private static final int SPEED = 8;
+    private static final int SPEED = 4;
     private Group group = Group.BAD;
     private boolean alive = true;
 
@@ -38,8 +45,10 @@ public class Tank {
         this.y = y;
         this.dir = dir;
         this.group = group;
+        body = new Rectangle(x, y, w, h);
     }
 
+    @Override
     public void paint(Graphics g) {
 
         if(!this.alive)return;
@@ -63,6 +72,7 @@ public class Tank {
     }
 
     Random r = new Random();
+
     private void move() {
         oldX = x;
         oldY = y;
@@ -80,6 +90,8 @@ public class Tank {
                 y += SPEED;
                 break;
         }
+        body.x = x;
+        body.y = y;
         boundaryCheak();
         RandomDir();
         if(r.nextInt(100) > 88){

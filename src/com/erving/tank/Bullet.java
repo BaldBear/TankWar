@@ -2,23 +2,34 @@ package com.erving.tank;
 
 import java.awt.*;
 
-public class Bullet {
+public class Bullet extends AbstractGameObject{
     private int x,y;
+    private int w=ResourceMgr.bulletWidth;
+    private int h = ResourceMgr.bulletHeight;
     private Dir dir;
     private Group group;
-    boolean alive = true;
-    private static final int SPEED = 30;
+    private boolean alive = true;
+    private static final int SPEED = 20;
+    private Rectangle body;
 
     public Bullet(int x, int y, Dir dir, Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group = group;
+        body = new Rectangle(x,y,w,h);
     }
 
+    public Group getGroup() {
+        return group;
+    }
+
+    public Rectangle getBody() {
+        return body;
+    }
 
     public void paint(Graphics g) {
-
+        if(!this.alive)return;
 
         switch (dir){
             case L: g.drawImage(ResourceMgr.bulletL, x, y, null);break;
@@ -37,6 +48,9 @@ public class Bullet {
             case U: y -= SPEED;break;
             case D: y += SPEED;break;
         }
+        //更新用于碰撞检测的Rectangle对象坐标
+        body.x = x;
+        body.y = y;
         boundaryCheak();
     }
 
@@ -52,22 +66,11 @@ public class Bullet {
 
     //和坦克的碰撞检测
     public void collidesWithTank(Tank tank){
-        //如果坦克已经消失，不再检测碰撞
-        if(!tank.isAlive())return;
 
-        if(this.group == tank.getGroup())return;
-
-        Rectangle bu = new Rectangle(x, y, ResourceMgr.bulletWidth, ResourceMgr.bulletHeight);
-        Rectangle t = new Rectangle(tank.getX(), tank.getY(), ResourceMgr.tankWidth, ResourceMgr.tankHeight);
-
-        //发生碰撞，坦克和子弹都消亡
-        if(bu.intersects(t)){
-            this.die();
-            tank.die();
-        }
     }
 
-    private void die() {
+
+    public void die() {
         this.alive=false;
     }
 

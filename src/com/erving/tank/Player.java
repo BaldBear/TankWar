@@ -8,7 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Player {
+public class Player extends AbstractGameObject{
 
     private int x, y;
 
@@ -23,7 +23,7 @@ public class Player {
     private Dir dir;
     private boolean stop;
     private boolean bL, bR, bU, bD;
-    private static final int SPEED = 8;
+    private static final int SPEED = 4;
     private Group group = Group.GOOD;
     private boolean alive = true;
 
@@ -135,7 +135,7 @@ public class Player {
             case KeyEvent.VK_DOWN:
                 bD = false;
                 break;
-            case KeyEvent.VK_CONTROL:
+            case KeyEvent.VK_C:
                 fire();
                 break;
         }

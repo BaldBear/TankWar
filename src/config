@@ -1,2 +1,4 @@
 initTankNumber=6
 fireStrategy=TwoBullets
+
+colliders=BulletWallCollider,TankBulletCollider

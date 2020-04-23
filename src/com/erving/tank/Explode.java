@@ -3,7 +3,7 @@ package com.erving.tank;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Explode {
+public class Explode extends AbstractGameObject{
 
 
     private int x,y;
@@ -23,7 +23,9 @@ public class Explode {
     }
 
     public void paint(Graphics g) {
-        g.drawImage(explodes[step],x,y,null);
+        if(this.isAlive()){
+            g.drawImage(explodes[step],x,y,null);
+        }
         step++;
         if(step>=explodes.length){
             alive = false;
