@@ -33,4 +33,9 @@ public class Wall extends AbstractGameObject {
         g.drawRect(x, y, w, h);
 
     }
+
+    @Override
+    public boolean isAlive() {
+        return true;
+    }
 }

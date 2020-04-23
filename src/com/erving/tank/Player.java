@@ -47,15 +47,6 @@ public class Player extends AbstractGameObject{
 
     public void paint(Graphics g) {
 
-//        g.fillRect(x, y, 50, 50);
-
-//        try {
-//            BufferedImage tankL = ImageIO.read(Tank.class.getClassLoader().getResourceAsStream("img/p1tankL.gif"));
-//            g.drawImage(tankL,x,y,null);
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         if(this.alive == false)return;
 
         switch (dir) {
@@ -77,6 +68,11 @@ public class Player extends AbstractGameObject{
             move();
         }
 
+    }
+
+    @Override
+    public boolean isAlive() {
+        return alive;
     }
 
     public void keyPressed(KeyEvent e) {
@@ -184,7 +180,7 @@ public class Player extends AbstractGameObject{
     }
 
     private void boundaryCheak(){
-        if(x<0 || x>TankFrame.GAME_WIDTH || y<0 || y>TankFrame.GAME_HEIGHT){
+        if(x<0 || x>TankFrame.INSTANCE.GAME_WIDTH || y<0 || y>TankFrame.INSTANCE.GAME_HEIGHT){
             this.stop = true;
         }
     }

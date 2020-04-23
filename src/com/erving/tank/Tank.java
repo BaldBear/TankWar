@@ -121,7 +121,7 @@ public class Tank extends AbstractGameObject{
     }
 
     private void boundaryCheak(){
-        if(x<0 || x>TankFrame.GAME_WIDTH-ResourceMgr.tankWidth || y<30 || y>TankFrame.GAME_HEIGHT -ResourceMgr.tankWidth){
+        if(x<0 || x>TankFrame.INSTANCE.GAME_WIDTH-ResourceMgr.tankWidth || y<30 || y>TankFrame.INSTANCE.GAME_HEIGHT -ResourceMgr.tankWidth){
             back();
         }
     }

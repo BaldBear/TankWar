@@ -55,12 +55,13 @@ public class Bullet extends AbstractGameObject{
     }
 
     private void boundaryCheak(){
-        if(x<0 || x>TankFrame.GAME_WIDTH || y<0 || y>TankFrame.GAME_HEIGHT){
+        if(x<0 || x>TankFrame.INSTANCE.GAME_WIDTH || y<0 || y>TankFrame.INSTANCE.GAME_HEIGHT){
             alive = false;
         }
     }
 
-    public boolean getAlive(){
+    @Override
+    public boolean isAlive(){
         return alive;
     }
 

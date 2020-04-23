@@ -1,9 +1,7 @@
 package com.erving.tank;
 
-import com.erving.tank.collides.BulletWallCollider;
+
 import com.erving.tank.collides.CollideChain;
-import com.erving.tank.collides.Collider;
-import com.erving.tank.collides.TankBulletCollider;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -19,8 +17,8 @@ public class TankFrame extends Frame {
     private CollideChain collideChain;
     private Wall wall;
 
-    static final int GAME_WIDTH = 800;
-    static final int GAME_HEIGHT = 640;
+    public int GAME_WIDTH =Integer.parseInt(PropertiesMgr.get("GAME_WIDTH"));
+    public int GAME_HEIGHT = Integer.parseInt(PropertiesMgr.get("GAME_HEIGHT"));
 
     private TankFrame(){
         this.setLocation(100,100);
@@ -66,13 +64,16 @@ public class TankFrame extends Frame {
 
         for(int i=0; i<agos.size();i++){
             AbstractGameObject go1 = agos.get(i);
-            for(int j=i+1; j<agos.size(); j++){
-                AbstractGameObject go2 = agos.get(j);
-                collideChain.collide(go1, go2);
-            }
-            agos.get(i).paint(g);
-        }
+            if(go1.isAlive()){
+                for(int j=0; j<agos.size(); j++){
+                    AbstractGameObject go2 = agos.get(j);
+                    collideChain.collide(go1, go2);
+                }
 
+                if(go1.isAlive())
+                    agos.get(i).paint(g);
+            }
+        }
 
     }
 
@@ -108,7 +109,5 @@ public class TankFrame extends Frame {
         }
 
     }
-
-
 
 }
