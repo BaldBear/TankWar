@@ -165,7 +165,7 @@ public class Player extends AbstractGameObject{
         //选择子弹发射模式
         try {
             Class clazz = Class.forName("com.erving.tank.strategy."+ className);
-            fireStrategy = (FireStrategy)clazz.getDeclaredConstructor().newInstance();
+            fireStrategy = (FireStrategy)clazz.getConstructor().newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }

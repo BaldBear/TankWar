@@ -65,11 +65,6 @@ public class Bullet extends AbstractGameObject{
         return alive;
     }
 
-    //和坦克的碰撞检测
-    public void collidesWithTank(Tank tank){
-
-    }
-
 
     public void die() {
         this.alive=false;

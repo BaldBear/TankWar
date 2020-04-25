@@ -106,12 +106,12 @@ public class Tank extends AbstractGameObject{
         int by = y + ResourceMgr.tankHeight / 2 - ResourceMgr.bulletHeight / 2;
 
         Bullet bullet = new Bullet(bx, by, dir, group);
-        TankFrame.INSTANCE.add(bullet);
+        TankFrame.INSTANCE.getGameModel().add(bullet);
     }
 
     public void die() {
         this.alive = false;
-        TankFrame.INSTANCE.add(new Explode(x, y));
+        TankFrame.INSTANCE.getGameModel().add(new Explode(x, y));
     }
 
     private void RandomDir(){
@@ -127,7 +127,7 @@ public class Tank extends AbstractGameObject{
     }
 
 
-    private void back(){
+    public void back(){
         this.x = oldX;
         this.y = oldY;
     }

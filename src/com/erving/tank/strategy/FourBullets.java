@@ -24,10 +24,10 @@ public class FourBullets implements FireStrategy {
             bullet3 = new Bullet(bx+20, by, player.getDir(), player.getGroup());
             bullet4 = new Bullet(bx-20, by, player.getDir(), player.getGroup());
         }
-        TankFrame.INSTANCE.add(bullet);
-        TankFrame.INSTANCE.add(bullet2);
-        TankFrame.INSTANCE.add(bullet3);
-        TankFrame.INSTANCE.add(bullet4);
+        TankFrame.INSTANCE.getGameModel().add(bullet);
+        TankFrame.INSTANCE.getGameModel().add(bullet2);
+        TankFrame.INSTANCE.getGameModel().add(bullet3);
+        TankFrame.INSTANCE.getGameModel().add(bullet4);
 
     }
 

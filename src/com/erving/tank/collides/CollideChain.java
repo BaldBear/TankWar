@@ -11,8 +11,7 @@ import java.util.List;
 public class CollideChain {
 
     private List<Collider> colliders;
-
-
+    
     public void initColliders() {
         colliders = new ArrayList<>();
         String[] names = PropertiesMgr.get("colliders").split(",");

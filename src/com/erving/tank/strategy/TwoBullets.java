@@ -18,8 +18,8 @@ public class TwoBullets implements FireStrategy {
             bullet = new Bullet(bx+10, by, player.getDir(), player.getGroup());
 
         }
-        TankFrame.INSTANCE.add(bullet);
-        TankFrame.INSTANCE.add(bullet2);
+        TankFrame.INSTANCE.getGameModel().add(bullet);
+        TankFrame.INSTANCE.getGameModel().add(bullet2);
 
 
 

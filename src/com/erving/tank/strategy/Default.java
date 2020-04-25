@@ -11,6 +11,6 @@ public class Default implements FireStrategy{
         int bx = player.getX() + ResourceMgr.tankWidth / 2 - ResourceMgr.bulletWidth / 2;
         int by = player.getY() + ResourceMgr.tankHeight / 2 - ResourceMgr.bulletHeight / 2;
         Bullet bullet = new Bullet(bx, by, player.getDir(), player.getGroup());
-        TankFrame.INSTANCE.add(bullet);
+        TankFrame.INSTANCE.getGameModel().add(bullet);
     }
 }

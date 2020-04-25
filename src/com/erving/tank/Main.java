@@ -5,7 +5,7 @@ public class Main {
 
         TankFrame.INSTANCE.setVisible(true);
 
-        new Thread(()->new Audio("audio/war1.wav").loop()).start();
+//        new Thread(()->new Audio("audio/war1.wav").loop()).start();
 
         while(true){
             try {

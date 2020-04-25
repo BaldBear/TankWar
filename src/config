@@ -1,7 +1,9 @@
 GAME_WIDTH=1080
+
 GAME_HEIGHT=720
 
-initTankNumber=6
+initTankNumber=8
+
 fireStrategy=TwoBullets
 
-colliders=BulletWallCollider,TankBulletCollider
+colliders=BulletWallCollider,TankBulletCollider,TankTankCollider
