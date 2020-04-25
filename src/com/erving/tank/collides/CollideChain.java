@@ -3,15 +3,15 @@ package com.erving.tank.collides;
 import com.erving.tank.AbstractGameObject;
 import com.erving.tank.PropertiesMgr;
 
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
-public class CollideChain {
+
+
+public class CollideChain implements Serializable {
 
     private List<Collider> colliders;
-    
     public void initColliders() {
         colliders = new ArrayList<>();
         String[] names = PropertiesMgr.get("colliders").split(",");
@@ -24,7 +24,6 @@ public class CollideChain {
             }
         }
     }
-
     public void collide(AbstractGameObject go1, AbstractGameObject go2){
         for(Collider collider : colliders){
             if(!collider.collide(go1, go2)){

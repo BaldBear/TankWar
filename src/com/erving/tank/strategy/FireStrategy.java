@@ -2,7 +2,9 @@ package com.erving.tank.strategy;
 
 import com.erving.tank.Player;
 
-public interface FireStrategy {
+import java.io.Serializable;
+
+public interface FireStrategy extends Serializable {
 
     public void fire(Player player);
 }

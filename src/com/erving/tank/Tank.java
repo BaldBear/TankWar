@@ -36,7 +36,7 @@ public class Tank extends AbstractGameObject{
     }
 
     private Dir dir = Dir.D;
-    private static final int SPEED = 4;
+    private static final int SPEED = 6;
     private Group group = Group.BAD;
     private boolean alive = true;
 

@@ -23,7 +23,7 @@ public class Player extends AbstractGameObject{
     private Dir dir;
     private boolean stop;
     private boolean bL, bR, bU, bD;
-    private static final int SPEED = 4;
+    private static final int SPEED = 6;
     private Group group = Group.GOOD;
     private boolean alive = true;
 
@@ -47,7 +47,7 @@ public class Player extends AbstractGameObject{
 
     public void paint(Graphics g) {
 
-        if(this.alive == false)return;
+        if(!this.alive)return;
 
         switch (dir) {
             case L:

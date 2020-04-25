@@ -5,11 +5,12 @@ import com.erving.tank.collides.CollideChain;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class GameModel {
+public class GameModel implements Serializable{
 
     private Player myTank=null;
     private List<AbstractGameObject> agos ;
@@ -41,8 +42,8 @@ public class GameModel {
         Random r = new Random();
 
         for(int i = 0; i< tankCount; i++){
-            int x = r.nextInt(GAME_WIDTH);
-            int y = r.nextInt(GAME_HEIGHT);
+            int x = r.nextInt(GAME_WIDTH-100);
+            int y = r.nextInt(GAME_HEIGHT-100);
             Tank newTank = new Tank(x,y, Dir.RandomDirection(), Group.BAD);
             boolean add = true;
             for(int j = 0; j<agos.size(); j++){
