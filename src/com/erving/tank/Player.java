@@ -1,12 +1,9 @@
 package com.erving.tank;
 
-import com.erving.tank.strategy.FireStrategy;
 
-import javax.imageio.ImageIO;
+import com.erving.tank.strategy.FireStrategy;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Player extends AbstractGameObject{
 
@@ -63,11 +60,9 @@ public class Player extends AbstractGameObject{
                 g.drawImage(ResourceMgr.p1tankD, x, y, null);
                 break;
         }
-
         if (!stop) {
             move();
         }
-
     }
 
     @Override
