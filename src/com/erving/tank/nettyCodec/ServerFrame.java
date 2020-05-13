@@ -14,6 +14,7 @@ public class ServerFrame extends Frame {
     private Server server = new Server();
 
     public ServerFrame(){
+        this.setTitle("Tank Server");
         this.setSize(800,600);
         this.setLocation(300,30);
         Panel p = new Panel(new GridLayout(1,2));

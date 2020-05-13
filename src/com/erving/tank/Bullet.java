@@ -1,8 +1,14 @@
 package com.erving.tank;
 
+import com.erving.tank.nettyCodec.Client;
+import com.erving.tank.nettyCodec.NewBulletMsg;
+
 import java.awt.*;
+import java.util.UUID;
 
 public class Bullet extends AbstractGameObject{
+    private UUID playerId;
+    private UUID id;
     private int x,y;
     private int w=ResourceMgr.bulletWidth;
     private int h = ResourceMgr.bulletHeight;
@@ -12,12 +18,40 @@ public class Bullet extends AbstractGameObject{
     private static final int SPEED = 20;
     private Rectangle body;
 
-    public Bullet(int x, int y, Dir dir, Group group) {
+    public Bullet(UUID playerId, int x, int y, Dir dir, Group group) {
+        this.playerId = playerId;
+        this.id = UUID.randomUUID();
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group = group;
         body = new Rectangle(x,y,w,h);
+
+
+    }
+
+    public UUID getPlayerId() {
+        return playerId;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public Dir getDir() {
+        return dir;
     }
 
     public Group getGroup() {

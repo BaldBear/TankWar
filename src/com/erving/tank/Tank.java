@@ -1,11 +1,9 @@
 package com.erving.tank;
 
-import javax.imageio.ImageIO;
+import com.erving.tank.nettyCodec.TankJoinMsg;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
+import java.util.UUID;
 
 public class Tank extends AbstractGameObject{
 
@@ -14,6 +12,21 @@ public class Tank extends AbstractGameObject{
     private int w=ResourceMgr.bulletWidth;
     private int h = ResourceMgr.bulletHeight;
     private Rectangle body;
+    private UUID id;
+    private boolean moving = true;
+
+
+    public Tank(TankJoinMsg msg) {
+        this.x = msg.getX();
+        this.y = msg.getY();
+        this.dir = msg.getDir();
+        this.group = msg.getGroup();
+        this.moving = msg.isStop();
+        this.alive = msg.isAlive();
+        this.id = msg.getId();
+
+        this.body = new Rectangle(x, y, w, h);
+    }
 
     public Group getGroup() {
         return group;
@@ -31,8 +44,28 @@ public class Tank extends AbstractGameObject{
         return this.alive;
     }
 
+    public UUID getID() {
+        return id;
+    }
+
     public Rectangle getBody() {
         return body;
+    }
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setDir(Dir dir) {
+        this.dir = dir;
     }
 
     private Dir dir = Dir.D;
@@ -45,7 +78,7 @@ public class Tank extends AbstractGameObject{
         this.y = y;
         this.dir = dir;
         this.group = group;
-        body = new Rectangle(x, y, w, h);
+        this.body = new Rectangle(x, y, w, h);
     }
 
     @Override
@@ -55,16 +88,16 @@ public class Tank extends AbstractGameObject{
 
         switch (dir) {
             case L:
-                g.drawImage(ResourceMgr.badTankL, x, y, null);
+                g.drawImage(this.group.equals(Group.BAD)?ResourceMgr.badTankL:ResourceMgr.p1tankL, x, y, null);
                 break;
             case R:
-                g.drawImage(ResourceMgr.badTankR, x, y, null);
+                g.drawImage(this.group.equals(Group.BAD)?ResourceMgr.badTankR:ResourceMgr.p1tankR, x, y, null);
                 break;
             case U:
-                g.drawImage(ResourceMgr.badTankU, x, y, null);
+                g.drawImage(this.group.equals(Group.BAD)?ResourceMgr.badTankU:ResourceMgr.p1tankU, x, y, null);
                 break;
             case D:
-                g.drawImage(ResourceMgr.badTankD, x, y, null);
+                g.drawImage(this.group.equals(Group.BAD)?ResourceMgr.badTankD:ResourceMgr.p1tankD, x, y, null);
                 break;
         }
 
@@ -74,6 +107,8 @@ public class Tank extends AbstractGameObject{
     Random r = new Random();
 
     private void move() {
+        if(!moving) return;
+
         oldX = x;
         oldY = y;
         switch (dir) {
@@ -93,11 +128,10 @@ public class Tank extends AbstractGameObject{
         body.x = x;
         body.y = y;
         boundaryCheak();
-        RandomDir();
-        if(r.nextInt(100) > 88){
-            fire();
-
-        }
+//        RandomDir();
+//        if(r.nextInt(100) > 88){
+//            fire();
+//        }
     }
 
     private void fire() {
@@ -105,13 +139,14 @@ public class Tank extends AbstractGameObject{
         int bx = x + ResourceMgr.tankWidth / 2 - ResourceMgr.bulletWidth / 2;
         int by = y + ResourceMgr.tankHeight / 2 - ResourceMgr.bulletHeight / 2;
 
-        Bullet bullet = new Bullet(bx, by, dir, group);
+        Bullet bullet = new Bullet(this.id, bx, by, dir, group);
         TankFrame.INSTANCE.getGameModel().add(bullet);
     }
 
     public void die() {
         this.alive = false;
         TankFrame.INSTANCE.getGameModel().add(new Explode(x, y));
+
     }
 
     private void RandomDir(){

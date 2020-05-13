@@ -14,15 +14,15 @@ public class FourBullets implements FireStrategy {
         Bullet bullet4;
         if(player.getDir()== Dir.L || player.getDir() == Dir.R){
 
-            bullet = new Bullet(bx, by+10, player.getDir(), player.getGroup());
-            bullet2 = new Bullet(bx, by+20, player.getDir(), player.getGroup());
-            bullet3 = new Bullet(bx, by-10, player.getDir(), player.getGroup());
-            bullet4 = new Bullet(bx, by-20, player.getDir(), player.getGroup());
+            bullet = new Bullet(player.getId(), bx, by+10, player.getDir(), player.getGroup());
+            bullet2 = new Bullet(player.getId(), bx, by+20, player.getDir(), player.getGroup());
+            bullet3 = new Bullet(player.getId(), bx, by-10, player.getDir(), player.getGroup());
+            bullet4 = new Bullet(player.getId(), bx, by-20, player.getDir(), player.getGroup());
         }else{
-            bullet = new Bullet(bx+10, by, player.getDir(), player.getGroup());
-            bullet2 = new Bullet(bx-10, by, player.getDir(), player.getGroup());
-            bullet3 = new Bullet(bx+20, by, player.getDir(), player.getGroup());
-            bullet4 = new Bullet(bx-20, by, player.getDir(), player.getGroup());
+            bullet = new Bullet(player.getId(), bx+10, by, player.getDir(), player.getGroup());
+            bullet2 = new Bullet(player.getId(), bx-10, by, player.getDir(), player.getGroup());
+            bullet3 = new Bullet(player.getId(), bx+20, by, player.getDir(), player.getGroup());
+            bullet4 = new Bullet(player.getId(), bx-20, by, player.getDir(), player.getGroup());
         }
         TankFrame.INSTANCE.getGameModel().add(bullet);
         TankFrame.INSTANCE.getGameModel().add(bullet2);

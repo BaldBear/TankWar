@@ -11,11 +11,11 @@ public class TwoBullets implements FireStrategy {
         Bullet bullet;
         Bullet bullet2;
         if(player.getDir()== Dir.L || player.getDir() == Dir.R){
-            bullet = new Bullet(bx, by+10, player.getDir(), player.getGroup());
-            bullet2 = new Bullet(bx, by-10, player.getDir(), player.getGroup());
+            bullet = new Bullet(player.getId(), bx, by+10, player.getDir(), player.getGroup());
+            bullet2 = new Bullet(player.getId(), bx, by-10, player.getDir(), player.getGroup());
         }else{
-            bullet2 = new Bullet(bx-10, by, player.getDir(), player.getGroup());
-            bullet = new Bullet(bx+10, by, player.getDir(), player.getGroup());
+            bullet2 = new Bullet(player.getId(), bx-10, by, player.getDir(), player.getGroup());
+            bullet = new Bullet(player.getId(), bx+10, by, player.getDir(), player.getGroup());
 
         }
         TankFrame.INSTANCE.getGameModel().add(bullet);

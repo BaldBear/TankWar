@@ -2,24 +2,30 @@ package com.erving.tank;
 
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.*;
+import java.util.UUID;
 
 
 public class TankFrame extends Frame {
     //单例
     public static final TankFrame INSTANCE = new TankFrame();
 
-    private GameModel gameModel;
+    private GameModel gameModel = new GameModel();
 
     int GAME_WIDTH =Integer.parseInt(PropertiesMgr.get("GAME_WIDTH"));
     int GAME_HEIGHT = Integer.parseInt(PropertiesMgr.get("GAME_HEIGHT"));
 
     private TankFrame(){
+        this.setTitle("Tank War");
         this.setLocation(100,100);
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
-        gameModel = new GameModel();
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
         this.addKeyListener(new TankKeyListener());
     }
 
@@ -47,6 +53,7 @@ public class TankFrame extends Frame {
         paint(gOffScreen);
         g.drawImage(offScreenImage, 0, 0, null);
     }
+
 
 
     private class TankKeyListener extends KeyAdapter implements Serializable{

@@ -1,28 +1,29 @@
 package com.erving.tank.nettyCodec;
 
+import com.erving.tank.TankFrame;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.util.ReferenceCountUtil;
-import nettychat.ClientFrame;
+
+
 
 public class Client {
 
-    private Channel channel;
+    public static final Client INSTANCE = new Client();
+    private Channel channel = null;
+    private Client() {
+    }
 
-    public void send(String str){
-        channel.writeAndFlush(Unpooled.copiedBuffer(str.getBytes()));
+    public void send(Msg msg){
+        channel.writeAndFlush(msg);
     }
 
     public void connect(){
         EventLoopGroup worker = new NioEventLoopGroup();
-
+        Bootstrap b = new Bootstrap();
         try {
-            Bootstrap b = new Bootstrap();
             b.group(worker);
             b.channel(NioSocketChannel.class);
             b.handler(new ChannelInitializer<SocketChannel>() {
@@ -31,60 +32,77 @@ public class Client {
                     channel = socketChannel;
                     socketChannel.pipeline()
                             .addLast(new TankMsgEncoder())
+                            .addLast(new TankMsgDecoder())
                             .addLast(new MyHandler());
                 }
             });
 
-            ChannelFuture channelFuture = b.connect("localhost", 8881).sync();
-
-            //
+            ChannelFuture channelFuture = b.connect("localhost", 8888).sync();
+            System.out.println("connected to server");
 
             channelFuture.channel().closeFuture().sync();
+            System.out.println("go on");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
             worker.shutdownGracefully();
         }
-
     }
 
 
-    private static class MyHandler extends ChannelInboundHandlerAdapter{
+//    private static class MyHandler extends ChannelInboundHandlerAdapter{
+//
+//        @Override
+//        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+//            ByteBuf byteBuf = (ByteBuf)msg;
+//            try{
+//                byte[] bytes = new byte[byteBuf.readableBytes()];
+//                byteBuf.getBytes(byteBuf.readerIndex(), bytes);
+//                String str = new String(bytes);
+//                ServerFrame.INSTANCE.updateClientMsg(msg.toString());
+//            } finally {
+//                //ByteBuf使用的是计算机的直接内存，需要手动释放引用
+//                if(byteBuf != null){
+//                    ReferenceCountUtil.release(byteBuf);
+//                }
+//            }
+//        }
+//
+//        @Override
+//        public void channelActive(ChannelHandlerContext ctx) throws Exception{
+//            ctx.writeAndFlush(new TankJoinMsg(TankFrame.INSTANCE.getGameModel().getPlayer()));
+//        }
+//
+//        @Override
+//        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception{
+//            super.exceptionCaught(ctx, cause);
+//        }
+//    }
 
-        @Override
-        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-            ByteBuf byteBuf = (ByteBuf)msg;
-            try{
-                byte[] bytes = new byte[byteBuf.readableBytes()];
-                byteBuf.getBytes(byteBuf.readerIndex(), bytes);
-                String str = new String(bytes);
-                ClientFrame.INSTANCE.updateText(str);
-            } finally {
-                //ByteBuf使用的是计算机的直接内存，需要手动释放引用
-                if(byteBuf != null){
-                    ReferenceCountUtil.release(byteBuf);
-                }
-            }
-        }
+    private  class MyHandler extends SimpleChannelInboundHandler<Msg> {
 
         @Override
         public void channelActive(ChannelHandlerContext ctx) throws Exception{
-
-            ctx.writeAndFlush(new TankMsg(100, 150));
-
-//            ByteBuf byteBuf = Unpooled.copiedBuffer("A Client has conneted".getBytes());
-//            ctx.writeAndFlush(byteBuf);
+            ctx.writeAndFlush(new TankJoinMsg(TankFrame.INSTANCE.getGameModel().getPlayer()));
         }
+
 
         @Override
         public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception{
             super.exceptionCaught(ctx, cause);
         }
+
+        @Override
+        protected void channelRead0(ChannelHandlerContext ctx, Msg msg) throws Exception {
+            System.out.println(msg);
+            msg.handle();
+        }
     }
 
-    public static void main(String[] args) {
-        Client c = new Client();
-        c.connect();
-    }
+
+//    public static void main(String[] args) {
+//        Client c = new Client();
+//        c.connect();
+//    }
 
 }

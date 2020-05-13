@@ -12,10 +12,11 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 
 public class Server {
 
+    //保存所有的客户端通道
     public static ChannelGroup clients = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     public void ServerStart(){
-        //负责相应请求
+        //负责响应请求
         EventLoopGroup bossGroup = new NioEventLoopGroup(2);
         //负责服务
         EventLoopGroup workerGroup = new NioEventLoopGroup(4);
@@ -27,7 +28,7 @@ public class Server {
                     b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new MyChildInitializer())
-                    .bind(8881)
+                    .bind(8888)
                     .sync();
 
             ServerFrame.INSTANCE.updateServerMsg("server start sucessfully!");
@@ -48,7 +49,7 @@ public class Server {
         @Override
         protected void initChannel(SocketChannel socketChannel) throws Exception {
             socketChannel.pipeline()
-                    .addLast(new TankMsgDecoder())
+//                    .addLast(new TankMsgDecoder())
                     .addLast(new MyChildHandler());
         }
     }
@@ -62,9 +63,9 @@ public class Server {
 
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-            System.out.println(msg);
-            TankMsg tm = (TankMsg)msg;
-            ServerFrame.INSTANCE.updateServerMsg(tm.toString());
+
+            ServerFrame.INSTANCE.updateServerMsg(msg.toString());
+            clients.writeAndFlush(msg);
         }
         @Override
         public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception{
